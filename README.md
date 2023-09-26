@@ -3,7 +3,7 @@
 ## Overview
 _sketchPro_ is a novel sketch-based solution with a probabilistic update scheme, which can identify top-k items precisely with low memory consumption.
 
-In order to adapt to the expansion of network scale and the massive increase in traffic, it poses challenges to the memory of both the server and the programmable data plane. For this reason, we propose sketchPro, which aims to achieve high-precision top-𝑘 items detection with less memory.
+sketchPro is a sketch-based method that does not insert the items into sketch (i.e., Chief) directly when hash collision occurs, instead, it calculates the probability based on the recorded item size and the frequency of hash collisions. Besides, sketchPro uses a one-dimensional array (i.e., Auxiliary) to preserve the large items that are accidentally evicted from Chief. Through dynamically adjusting the probability, sketchPro can mitigate the effect of hash collisions, so large items have a greater chance of retention. Therefore, sketchPro can achieve high accuracy while reducing memory consumption.
 
 The code is written by P4_16 running in programmable software switches (i.e., BMv2).
 
