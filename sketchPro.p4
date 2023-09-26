@@ -7,7 +7,7 @@
 
 #define SketchColumn 400   
 #define ArrayColumn 200    
-#define BUCKET_WIDTH 60  
+#define BUCKET_WIDTH 64  
 #define arrayBucket_width 52
 
 
@@ -51,11 +51,11 @@
 
 control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
 
-    Init_Sketch_Register(0);   //Chief
-    Init_Array_Register(1);    //Auxiliary slice1
-    Init_Array_Register(2);    //Auxiliary slice2
-    Init_Array_Register(3);    //Auxiliary slice3
-    Init_Array_Register(4);    //Auxiliary slice4
+    Init_Sketch_Register(0);  //Chief
+    Init_Array_Register(1);   //Auxiliary slice1
+    Init_Array_Register(2);   //Auxiliary slice2
+    Init_Array_Register(3);   //Auxiliary slice3
+    Init_Array_Register(4);   //Auxiliary slice4
 
  
     action drop() { mark_to_drop(standard_metadata); }
@@ -81,7 +81,7 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
     
     
     action replace_action0(){
-        bit<60> temp;
+        bit<64> temp;
         meta.toWriteKey = meta.carriedKey;
         meta.toWriteCount = 1;
         meta.toWriteCollision = 0;
@@ -113,12 +113,12 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
         get_flowKey();
         meta.carriedCount = 1;
         meta.carriedCollision = 0;
-        bit<60> temp1;
+        bit<64> temp1;
         HASH_Index(0, 104w00000000000000000000); 
         Read_Sketch_Register(0); 
-        meta.currentKey = meta.sketchEntry[59:28];
-        meta.currentCount = meta.sketchEntry[27:8];
-        meta.currentCollision = meta.sketchEntry[7:0];
+        meta.currentKey = meta.sketchEntry[63:32];
+        meta.currentCount = meta.sketchEntry[31:12];
+        meta.currentCollision = meta.sketchEntry[11:0];
 
         if (meta.currentKey == 0) { 
             meta.toWriteKey = meta.carriedKey;
