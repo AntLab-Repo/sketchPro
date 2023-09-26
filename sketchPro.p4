@@ -51,12 +51,11 @@
 
 control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
 
-    Init_Sketch_Register(0);
-    Init_Array_Register(1);
-    Init_Array_Register(2);
-    Init_Array_Register(3);
-    Init_Array_Register(4); 
-    Init_Array_Register(5);
+    Init_Sketch_Register(0);   //Chief
+    Init_Array_Register(1);    //Auxiliary slice1
+    Init_Array_Register(2);    //Auxiliary slice2
+    Init_Array_Register(3);    //Auxiliary slice3
+    Init_Array_Register(4);    //Auxiliary slice4
 
  
     action drop() { mark_to_drop(standard_metadata); }
@@ -105,7 +104,7 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
         }
         default_action = drop();
         const entries = {
-            #include "table0_match.p4"
+            #include "table_match.p4"  // probability calculation
         }
     }
 
@@ -158,7 +157,6 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
         STAGE_Array(2, 104w22222222222222222222);
         STAGE_Array(3, 104w33333333333333333333);
         STAGE_Array(4, 104w44444444444444444444);
-        STAGE_Array(5, 104w55555555555555555555);
         
         forward_spec();
 
