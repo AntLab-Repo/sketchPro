@@ -8,7 +8,7 @@
 #define SketchColumn 400   
 #define ArrayColumn 200    
 #define BUCKET_WIDTH 64  
-#define arrayBucket_width 52
+#define arrayBucket_width 54
 
 
 #define Init_Sketch_Register(num) register<bit<BUCKET_WIDTH>>(SketchColumn) register_stage##num
@@ -24,11 +24,11 @@
 
 #define STAGE_Array(num,seed) { \
     if(meta.carriedKey != 0){ \
-        bit<52> temp; \
+        bit<54> temp; \
         HASH_Array_Index(num,seed);\
         Read_Array_Register(num);\
-        meta.currentKey = meta.arrayEntry[51:20]; \
-        meta.currentCount = meta.arrayEntry[19:0]; \
+        meta.currentKey = meta.arrayEntry[53:22]; \
+        meta.currentCount = meta.arrayEntry[21:0]; \
         if(meta.currentCount == 0 || meta.currentKey == meta.carriedKey){\
     	    meta.toWriteKey = meta.carriedKey;\
     	    meta.toWriteCount = meta.currentCount + meta.carriedCount;\
@@ -51,7 +51,7 @@
 
 control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
 
-    Init_Sketch_Register(0);  //Chief
+    Init_Sketch_Register(0);  // Chief
     Init_Array_Register(1);   //Auxiliary slice1
     Init_Array_Register(2);   //Auxiliary slice2
     Init_Array_Register(3);   //Auxiliary slice3
@@ -104,7 +104,7 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
         }
         default_action = drop();
         const entries = {
-            #include "table_match.p4"  // probability calculation
+            #include "table_match.p4"
         }
     }
 
@@ -117,8 +117,8 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
         HASH_Index(0, 104w00000000000000000000); 
         Read_Sketch_Register(0); 
         meta.currentKey = meta.sketchEntry[63:32];
-        meta.currentCount = meta.sketchEntry[31:12];
-        meta.currentCollision = meta.sketchEntry[11:0];
+        meta.currentCount = meta.sketchEntry[31:10];
+        meta.currentCollision = meta.sketchEntry[9:0];
 
         if (meta.currentKey == 0) { 
             meta.toWriteKey = meta.carriedKey;
@@ -145,7 +145,7 @@ control MyIngress(inout headers hdr, inout metadata meta, inout standard_metadat
             temp1 = meta.currentKey ++ meta.currentCount ++ meta.currentCollision; 
             Write_Register(0,temp1);  
             random<bit<12>>(meta.random_bit_shorts,12w0,12w0-1);\
-            meta.difference = meta.currentCount |-| (bit<20>)meta.currentCollision;
+            meta.difference = meta.currentCount |-| (bit<22>)meta.currentCollision;
             if(meta.difference>100){
                 meta.difference=100;
             }
