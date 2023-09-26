@@ -1,3 +1,4 @@
+
 const bit<16> TYPE_IPV4 = 0x800;
 const bit<8>  PROTO_TCP = 6;
 const bit<8>  PROTO_UDP = 17;
@@ -50,19 +51,19 @@ header udp_t {
 struct metadata {
     bit<104>    flowId; 
     bit<64>     sketchEntry;
-    bit<52>     arrayEntry; 
+    bit<54>     arrayEntry; 
     bit<32>     bucketIndex;
     bit<32>     currentKey;   
-    bit<20>     currentCount;
-    bit<12>      currentCollision;
+    bit<22>     currentCount;
+    bit<10>      currentCollision;
     bit<32>     carriedKey;
-    bit<20>     carriedCount;
-    bit<12>      carriedCollision;
+    bit<22>     carriedCount;
+    bit<10>      carriedCollision;
     bit<32>     toWriteKey;
-    bit<20>     toWriteCount;
-    bit<12>      toWriteCollision;
+    bit<22>     toWriteCount;
+    bit<10>      toWriteCollision;
     bit<12>     random_bit_shorts;
-    bit<20>     difference; 
+    bit<22>     difference; 
 }
 
 struct headers {
