@@ -13,4 +13,4 @@ The code is written by P4_16 running in programmable software switches (i.e., BM
 
 If you find this code useful in your research, please cite the following papers:
 
-* Keke Zheng, Lin Cui, Mimi Qian, WaiMing Lau, "_sketchPro_: Identifying top-𝑘 items based on probabilistic update", _Computer Networks_, 2023 (Under review).
+* Keke Zheng, Mai Zhang, Mimi Qian, WaiMing Lau and Lin Cui, "_sketchPro_: Identifying top-𝑘 items based on probabilistic update", _IEEE Transactions on Network and Service Management_, 2025 (Under review).
